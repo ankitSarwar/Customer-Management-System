@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Other head elements here -->
+  <title>Your Page Title</title>
+</head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Registration</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+      background-color: #212121;
+    }
+
+    .container {
+      width: 400px;
+      margin: 50px auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      margin-bottom: 8px;
+      color: #333;
+      font-size: 16px;
+    }
+
+    input, select {
+      padding: 10px;
+      margin-bottom: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button {
+      padding: 12px;
+      background-color: #4caf50;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    p {
+      text-align: center;
+      margin-top: 16px;
+      color: #555;
+    }
+
+    a {
+      color: #4caf50;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    select {
+      padding: 10px;
+      margin-bottom: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 18px;
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+<div class="container">
+  <h2>User Registration</h2>
+  <form id="registrationForm">
+    <label for="firstName">First Name:</label>
+    <input type="text" id="firstName" name="firstName" required maxlength="50">
+
+    <label for="lastName">Last Name:</label>
+    <input type="text" id="lastName" name="lastName" required maxlength="50">
+
+    <label for="street">Street:</label>
+    <input type="text" id="street" name="street">
+
+    <label for="address">Address:</label>
+    <input type="text" id="address" name="address" required maxlength="100">
+
+    <label for="city">City:</label>
+    <input type="text" id="city" name="city" required maxlength="50">
+
+    <label for="state">State:</label>
+    <input type="text" id="state" name="state" required maxlength="50">
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required maxlength="100">
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required>
+
+    <label for="phone">Phone Number:</label>
+    <input type="text" id="phone" name="phone" required minlength="8" maxlength="15">
+
+    <label for="role">Role:</label>
+    <select id="role" name="role" required>
+      <option value="USER">User</option>
+      <option value="ADMIN">Admin</option>
+    </select>
+
+    <button type="button" onclick="submitForm()">Register</button>
+  </form>
+  <p>Already have an account? <a href="/api/login">Log in</a></p>
+</div>
+
+<script>
+    function submitForm() {
+      // Fetch form values and create user object
+      const user = {
+        firstName: document.getElementById('firstName').value,
+        lastName: document.getElementById('lastName').value,
+        street: document.getElementById('street').value,
+        address: document.getElementById('address').value,
+        city: document.getElementById('city').value,
+        state: document.getElementById('state').value,
+        email: document.getElementById('email').value,
+        password: document.getElementById('password').value,
+        phone: document.getElementById('phone').value,
+        role: document.getElementById('role').value
+      };
+
+      // Make an AJAX request to your backend
+      fetch('/api/addNewUser', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(user),
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log(data);
+          alert(data.message);
+          window.location.href = '/api/login';
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('An error occurred. Please try again.');
+        });
+    }
+  </script>
+</body>
+
+</html>

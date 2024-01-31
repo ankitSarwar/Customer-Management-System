@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Login</title>
+<!--  <link rel="stylesheet" href="styles.css">-->
+  <style>
+
+body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+      background-color: #212121;
+    }
+
+    .container {
+      width: 400px;
+      margin: 50px auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      margin-bottom: 8px;
+      color: #333;
+      font-size: 16px;
+    }
+
+    input, select {
+      padding: 10px;
+      margin-bottom: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button {
+      padding: 12px;
+      background-color: #4caf50;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    p {
+      text-align: center;
+      margin-top: 16px;
+      color: #555;
+    }
+
+    a {
+      color: #4caf50;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    select {
+      padding: 10px;
+      margin-bottom: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 18px;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>User Login</h2>
+  <form id="loginForm" onsubmit="loginForm(event)">
+    <label for="email">Email:</label>
+    <input type="text" id="email" name="email" required>
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required>
+
+    <button type="submit">Log in</button>
+  </form>
+  <p>Don't have an account? <a href="/api/welcome">Register</a></p>
+</div>
+<!-- Add an element to display error messages -->
+<div id="errorMessage" style="color: red;"></div>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    function handleLogin(data) {
+        console.log(data);
+
+        // Check if the user has an ADMIN role
+        const isAdmin = data.role && data.role.includes('ADMIN');
+
+        if (isAdmin) {
+            // Redirect to getAllUser page
+            window.location.href = '/api/getAllUser';
+        } else {
+            // Display access denied message
+            document.getElementById('errorMessage').innerText = 'Access denied. You do not have the required permissions.';
+        }
+    }
+    /*]]>*/
+</script>
+
+<!-- Add a container to display user information -->
+<div id="userInfoContainer"></div>
+
+<script>
+    function loginForm(event) {
+        event.preventDefault();
+
+        const credentials = {
+            email: document.getElementById('email').value,
+            password: document.getElementById('password').value
+        };
+
+        fetch('/api/logIn', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(credentials),
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Login failed");
+            }
+            return response.json();
+        })
+        .then(data => handleLogin(data))
+        .catch(error => {
+            console.error('Error:', error);
+            // Display error message to the user
+            document.getElementById('errorMessage').innerText = 'Login failed. Please check your credentials.';
+        });
+    }
+</script>
+
+</body>
+</html>

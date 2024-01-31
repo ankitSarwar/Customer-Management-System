@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{ base :: layout(~{::title} , ~{::section}) }">
+
+<head>
+  <meta charset="ISO-8859-1">
+  <title>Customer Edit Form</title>
+</head>
+<body>
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <div class="card">
+          <div class="card-header text-center">
+            <p class="fs-4">Edit Customer</p>
+            <th:block th:if="${session.msg}">
+              <p class="text-center text-success fs-4">[[${session.msg}]]</p>
+              <th:block th:text="${@userInfoService.removeSessionMessage()}"></th:block>
+            </th:block>
+          </div>
+
+          <div class="card-body">
+            <form action="/api/updateUserInfo" method="post">
+
+              <input type="hidden" name="id" th:value="${user.id}">
+
+              <div class="mb-3">
+                <label class="form-label">First Name</label>
+                <input type="text" class="form-control" name="firstName" th:value="${user.firstName}" required>
+              </div>
+
+              <div class="mb-3">
+                <label  class="form-label">Last Name</label>
+                <input type="text" class="form-control" name="lastName" th:value="${user.lastName}">
+              </div>
+
+              <div class="mb-3">
+                <label  class="form-label">Email</label>
+                <input type="email" class="form-control" name="email" th:value="${user.email}">
+              </div>
+
+              <div class="mb-3">
+                <label  class="form-label">Address</label>
+                <input type="text" class="form-control" name="address" th:value="${user.address}">
+              </div>
+
+
+
+              <div class="mb-3">
+                <label  class="form-label">Street</label>
+                <input type="text" class="form-control" name="street" th:value="${user.street}">
+              </div>
+
+              <div class="mb-3">
+                <label  class="form-label">City</label>
+                <input type="text" class="form-control" name="city" th:value="${user.city}">
+              </div>
+
+              <div class="mb-3">
+                <label  class="form-label">Phone</label>
+                <input type="text" class="form-control" name="phone" th:value="${user.phone}">
+              </div>
+
+
+              <button type="submit" class="btn btn-primary">Update</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+</html>

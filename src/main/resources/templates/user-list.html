@@ -1,0 +1,51 @@
+<!-- src/main/resources/templates/user-list.html -->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User List</title>
+</head>
+
+<body>
+<h1>User List</h1>
+
+<!-- Pagination Controls -->
+<div>
+        <span th:if="${currentPage > 0}">
+            <a th:href="@{'/api/users/list?page=' + (currentPage - 1)}">Previous</a>
+        </span>
+  <span th:if="${currentPage < totalPages - 1}">
+            <a th:href="@{'/api/users/list?page=' + (currentPage + 1)}">Next</a>
+        </span>
+</div>
+
+<!-- User Search -->
+<form th:action="@{/api/users/list}" method="get">
+  <input type="text" name="search" th:value="${search}" placeholder="Search by first name">
+  <button type="submit">Search</button>
+</form>
+
+<!-- Display Users -->
+<table>
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>First Name</th>
+    <th>Last Name</th>
+    <!-- Add more columns as needed -->
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="user : ${users}">
+    <td th:text="${user.id}"></td>
+    <td th:text="${user.firstName}"></td>
+    <td th:text="${user.lastName}"></td>
+    <!-- Add more columns as needed -->
+  </tr>
+  </tbody>
+</table>
+</body>
+
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+th:replace="~{ base :: layout(~{::title} , ~{::section}) }">
+<head>
+    <meta charset="UTF-8">
+    <title>Index Page</title>
+
+</head>
+<body>
+<section style="background-color: #212121;">
+    <div class="container p-5">
+<!--        <div class="row"  >-->
+            <div class="col-md-10 offset-md-1">
+                <div class="card">
+                    <div class="card-header text-center fs-4">Customer Details</div>
+                    <th:block th:if="${session.msg}">
+                        <p class="text-center text-success fs-4" th:text="${session.msg}"></p>
+                        <th:block th:text="${@userInfoService.removeSessionMessage()}"></th:block>
+                    </th:block>
+
+                    <form th:action="@{/api/search}" method="get">
+                        <div class="mb-3">
+                            <label for="search" class="form-label text-white">Search:</label>
+                            <input type="text" class="form-control form-control-sm" id="search" name="search" placeholder="Enter first name, city, email, or phone">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-lg">Search</button>
+                    </form>
+                    <div class="text-center mt-3">
+                        <a th:href="@{/api/login}" class="btn btn-outline-primary">Login</a>
+                        <a th:href="@{/api/welcome}" class="btn btn-outline-success ml-2">Register</a>
+                    </div>
+
+
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">Id</th>
+                                <th scope="col">First Name</th>
+                                <th scope="col">Last Name</th>
+                                <th scope="col">Address</th>
+                                <th scope="col">City</th>
+                                <th scope="col">State</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Phone</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="userInfo, status:${userInfoList}">
+                                <th scope="row" th:text="${status.index + 1}"></th>
+                                <td th:text="${userInfo.firstName}"></td>
+                                <td th:text="${userInfo.lastName}"></td>
+                                <td th:text="${userInfo.address}"></td>
+                                <td th:text="${userInfo.city}"></td>
+                                <td th:text="${userInfo.state}"></td>
+                                <td th:text="${userInfo.email}"></td>
+                                <td th:text="${userInfo.phone}"></td>
+
+                                <td>
+                                    <a th:href="@{'/api/editUser/' + ${userInfo.id}}"
+                                       class="btn btn-sm btn-primary">Edit</a>
+                                    <a th:href="@{'/api/deleteUser/' + ${userInfo.id}}"
+                                       class="btn btn-sm btn-danger">Delete</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+<!--        </div>-->
+    </div>
+</section>
+</body>
+</html>
