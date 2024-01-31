@@ -49,6 +49,7 @@ can add User.
 
 >## API endPoint
 >http://localhost:8080/api/login
+
 >http://localhost:8080/api/welcome
 
 ![Screenshot (1792)](https://github.com/ankitSarwar/Customer-Management-System/assets/111841677/37f32756-e678-4b47-8f26-4479124a0f62)
