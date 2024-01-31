@@ -1,6 +1,5 @@
 <h1 align="center"> Customer Management System</h1>
 
-* Tech stack used: Spring Boot, Hibernate, MySQL, OOPs, Postman, and Java
 >### Prerequisites
 * ![MySql](https://img.shields.io/badge/DBMS-MYSQL%205.7%20or%20Higher-red)
  * ![SpringBoot](https://img.shields.io/badge/Framework-SpringBoot-green)
